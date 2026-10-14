@@ -78,6 +78,7 @@
        classes, swap this link for the platform-hosted engine instead:
        <script src="/usernode-tailwind/v1/tailwind.js"></script> -->
   <link rel="stylesheet" href="/tailwind.css">
+  <link rel="stylesheet" href="/screens.css">
   <!-- The platform bridge, centrally hosted and loaded by RELATIVE path (the
        handler in server.js serves it under a plain "node server.js"; the
        platform's edge answers it everywhere else). Never vendor it and never
@@ -115,21 +116,92 @@
   <!-- (Named in prose on purpose: Tailwind compiles any class-name word in
        these files, comments included, and the starter should ship only the
        components its screen uses.) -->
-  <main class="mx-auto flex max-w-md flex-col gap-8 px-4 py-10">
+  <!-- usernode-spec-screens@1: the screens the spec drew, carried over by the platform as this
+       first version's starting point. Their styles are in public/screens.css.
+       Change them where behaviour needs it; do not redraw them. -->
+  <div data-spec-screen="1">
+    <div>
+    <div class="app">
+    <div class="top"><div><div class="sub">Club Votes</div><div class="title">Open decisions</div></div></div>
+    <button class="btn-primary" style="width:100%;margin-top:12px"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Post a decision</button>
 
-    <!-- usernode-starter-notice@1 — starter-template messaging. When building
-         the user's real app, replace this whole screen and delete this block,
-         both sentinel comments included. -->
-    <section class="card flex flex-col items-start gap-3">
-      <div class="flex h-20 w-20 items-center justify-center rounded-2xl border border-line bg-ground text-title">🗳️</div>
-      <span class="rounded-full bg-raised px-3 py-1 text-small font-medium text-muted">Starter template</span>
-      <h1 class="text-title">Club Votes</h1>
-      <p class="text-body text-muted">Welcome to your new app! Everything on this screen is placeholder content that came with it.</p>
-      <p class="text-body text-muted">To change this app, ask Homeroom bot: tap the <strong class="font-semibold text-fg">Homeroom icon</strong>, then <strong class="font-semibold text-fg">Suggest an improvement</strong>. Describe what you'd like in plain English, and it will be turned into your real app.</p>
-    </section>
-    <!-- /usernode-starter-notice@1 -->
+    <div class="section-label">Needs your vote (3)</div>
 
-    <p class="text-center text-small text-muted">Built on Homeroom. This template screen disappears once you build your real app.</p>
-  </main>
+    <div class="card">
+    <div class="meta"><span>Posted by Maya</span><span>Ends in 2 days</span></div>
+    <div class="q">Move Thursday meetups to the library?</div>
+    <div class="ballot"><div class="slot"></div><div class="box"><div class="fill" style="width:58%">Yes 7</div><div class="rest">No 5</div></div></div>
+    <div class="legend"><span>12 votes</span><span>6 comments</span></div>
+    <div class="acts"><button class="btn-secondary">Yes</button><button class="btn-secondary">No</button></div>
+    </div>
+
+    <div class="card">
+    <div class="meta"><span>Posted by Dev</span><span>Ends tomorrow</span></div>
+    <div class="q">Book the lakeside cabin for the spring trip?</div>
+    <div class="ballot"><div class="slot"></div><div class="box"><div class="fill" style="width:36%">Yes 4</div><div class="rest">No 7</div></div></div>
+    <div class="legend"><span>11 votes</span><span>14 comments</span></div>
+    <div class="acts"><button class="btn-secondary">Yes</button><button class="btn-secondary">No</button></div>
+    </div>
+
+    <div class="card">
+    <div class="meta"><span>Posted by Priya</span><span>Ends in 3 days</span></div>
+    <div class="q">Raise yearly dues from $20 to $25?</div>
+    <div class="ballot"><div class="slot"></div><div class="box"><div class="fill" style="width:25%">Yes 2</div><div class="rest">No 6</div></div></div>
+    <div class="legend"><span>8 votes</span><span>3 comments</span></div>
+    <div class="acts"><button class="btn-secondary">Yes</button><button class="btn-secondary">No</button></div>
+    </div>
+
+    <div class="section-label">You voted</div>
+    <div class="card">
+    <div class="meta"><span>Posted by you</span><span>Ends in 5 days</span></div>
+    <div class="q">Hold the June social at the park?</div>
+    <div class="ballot"><div class="slot"></div><div class="box"><div class="fill" style="width:44%">Yes 8</div><div class="rest">No 10</div></div></div>
+    <div class="legend"><span>18 votes</span><span>9 comments</span></div>
+    <div class="done"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You voted No</div>
+    </div>
+
+    <div class="section-label">Recently decided</div>
+    <ul class="list">
+    <li class="list-row"><span class="t">Swap game night to Fridays</span><span class="pill">Yes 13 to 4</span></li>
+    <li class="list-row"><span class="t">Buy a second projector</span><span class="pill">No 9 to 8</span></li>
+    <li class="list-row"><span class="t">Start a newsletter</span><span class="pill">Yes 15 to 2</span></li>
+    </ul>
+    </div>
+    </div>
+  </div>
+  <!-- Screen 2 as the spec drew it: inert until moved where that view belongs. -->
+  <template data-spec-screen="2">
+    <div data-spec-screen="2">
+      <div>
+      <div class="app">
+      <button class="back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Open decisions</button>
+      <div class="meta"><span>Posted by Maya</span><span>Ends in 2 days, Sat 6 pm</span></div>
+      <div class="title">Move Thursday meetups to the library?</div>
+      <p class="details">The café is getting loud and the library has a free room with a whiteboard. Same time, 7 pm.</p>
+
+      <div class="ballot"><div class="slot"></div><div class="box"><div class="fill" style="width:58%">Yes 7</div><div class="rest">No 5</div></div></div>
+      <div class="legend"><span>12 votes</span><span>Voting open</span></div>
+
+      <div class="section-label">Your vote</div>
+      <div class="acts"><button class="btn-secondary picked"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Yes</button><button class="btn-secondary">No</button></div>
+      <p class="hint">You can change your vote until it ends.</p>
+
+      <div class="section-label">Comments (3)</div>
+      <ul class="list">
+      <li class="list-row"><div class="who"><b>Sam</b><span>2 h ago</span></div><p class="body">Library closes at 9, so we would need to wrap up on time.</p><div class="row-acts"><button class="quiet">Report</button></div></li>
+      <li class="list-row"><div class="who"><b>Jordan</b><span>1 h ago</span></div><p class="body">Parking is easier there too. I am in.</p><div class="row-acts"><button class="quiet">Report</button></div></li>
+      <li class="list-row"><div class="who"><b>You</b><span>20 min ago</span></div><p class="body">Can we bring snacks into the room?</p><div class="row-acts"><button class="quiet">Delete</button></div></li>
+      </ul>
+
+      <label class="label">Add a comment</label>
+      <textarea class="field" placeholder="e.g. Works for me if we keep 7 pm"></textarea>
+      <div class="send"><button class="btn-primary">Post comment</button></div>
+
+      <div class="foot"><button class="quiet">Report this decision</button></div>
+      </div>
+      </div>
+    </div>
+  </template>
+  <!-- /usernode-spec-screens@1 -->
 </body>
 </html>
