@@ -120,14 +120,18 @@
   }
 
   // ── The list (screen 1) ─────────────────────────────────────────────────
+  function plural(n, word) {
+    return n + ' ' + word + (n === 1 ? '' : 's');
+  }
+
   function card(d) {
     var inner =
       '<div class="meta"><span>Posted by ' + esc(d.mine ? 'you' : d.authorName) + '</span>'
       + '<span>' + esc(endsIn(d.closesAt)) + '</span></div>'
       + '<a class="q" href="#/d/' + d.id + '">' + esc(d.question) + '</a>'
       + ballot(d)
-      + '<div class="legend"><span>' + d.totalVotes + ' votes</span>'
-      + '<span>' + d.commentCount + ' comments</span></div>';
+      + '<div class="legend"><span>' + plural(d.totalVotes, 'vote') + '</span>'
+      + '<span>' + plural(d.commentCount, 'comment') + '</span></div>';
     var foot;
     if (d.myVote) {
       foot = '<div class="done">' + TICK + 'You voted ' + (d.myVote === 'yes' ? 'Yes' : 'No') + '</div>';
@@ -137,11 +141,13 @@
         + '<button class="btn-secondary" data-vote="no" data-id="' + d.id + '">No</button>'
         + '</div>';
     }
-    return '<div class="card">' + inner + foot + '</div>';
+    // The whole card is the tap target that opens the decision (the Yes and
+    // No buttons stay their own taps; the click handler skips them).
+    return '<div class="card" data-open="' + d.id + '">' + inner + foot + '</div>';
   }
 
   function resultRow(d) {
-    return '<li class="list-row"><a class="t" href="#/d/' + d.id + '">'
+    return '<li class="list-row" data-open="' + d.id + '"><a class="t" href="#/d/' + d.id + '">'
       + esc(d.question) + '</a><span class="pill">' + esc(d.result) + '</span></li>';
   }
 
@@ -163,14 +169,19 @@
     var closed = data.decisions.filter(function (d) { return d.closed; });
     var needs = open.filter(function (d) { return !d.myVote; });
     var voted = open.filter(function (d) { return d.myVote; });
+    // While the list is empty the empty state's own button is the one
+    // primary action; the header's full-width one would duplicate it.
+    var headerBtn = data.decisions.length
+      ? '<a class="btn-primary" href="#/new" style="width:100%;margin-top:12px;text-decoration:none">'
+        + '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Post a decision</a>'
+      : '';
 
     var html = '<div class="app">'
       + '<div class="top"><div><div class="sub">Club Votes</div>'
       + '<div class="title">Open decisions</div>'
       + (DEMO ? '<div class="sub" data-usernode-demo-note>Staging demo</div>' : '')
       + '</div></div>'
-      + '<a class="btn-primary" href="#/new" style="width:100%;margin-top:12px;text-decoration:none">'
-      + '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Post a decision</a>'
+      + headerBtn
       + '<div id="status" class="hint" style="color:rgb(var(--danger))" hidden></div>';
 
     if (!data.decisions.length) {
@@ -248,7 +259,7 @@
       + '<div class="title">' + esc(d.question) + '</div>'
       + (d.details ? '<p class="details">' + esc(d.details) + '</p>' : '')
       + ballot(d)
-      + '<div class="legend"><span>' + d.totalVotes + ' votes</span><span>' + legendRight + '</span></div>'
+      + '<div class="legend"><span>' + plural(d.totalVotes, 'vote') + '</span><span>' + legendRight + '</span></div>'
       + '<div id="status" class="hint" style="color:rgb(var(--danger))" hidden></div>'
       + yourVote
       + '<div class="section-label">Comments (' + data.comments.length + ')</div>'
@@ -443,7 +454,13 @@
   document.addEventListener('click', function (ev) {
     var el = ev.target.closest('[data-vote],[data-comment],[data-del-comment],'
       + '[data-del-decision],[data-report-decision],[data-report-comment],[data-post],[data-retry]');
-    if (!el) return;
+    if (!el) {
+      // A decision card or "Recently decided" row that was not a button or
+      // link opens the decision.
+      var opener = ev.target.closest('[data-open]');
+      if (opener) location.hash = '#/d/' + opener.getAttribute('data-open');
+      return;
+    }
     if (el.hasAttribute('data-vote')) return vote(el.getAttribute('data-id'), el.getAttribute('data-vote'));
     if (el.hasAttribute('data-comment')) return postComment(el.getAttribute('data-comment'));
     if (el.hasAttribute('data-del-comment')) return delComment(el.getAttribute('data-del-comment'));

@@ -19,6 +19,8 @@
   color: rgb(var(--fg));
   min-height: 1120px;
   width: 390px;
+  /* The drawn column, centred in the wider window: equal gutters. */
+  margin-inline: auto;
   box-sizing: border-box;
   padding: 0 16px 40px;
   font-size: 16px;
@@ -45,7 +47,10 @@
 
 .meta {display:flex;justify-content:space-between;font-size:14px;line-height:20px;color:rgb(var(--muted))}
 
-.q {font-size:20px;line-height:28px;font-weight:600;margin:4px 0 14px}
+/* display:block: the question is a link on the list screen, and an inline
+   element would drop the 14 px margin that keeps the ballot slot clear of
+   the question's last line (14 px + the slot's 6 px padding ≈ 20 px). */
+.q {display:block;font-size:20px;line-height:28px;font-weight:600;margin:4px 0 14px}
 
 .ballot {position:relative;padding-top:6px}
 
@@ -132,3 +137,7 @@ svg {width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;strok
 /* Wiring, not restyling: questions and result rows are links to the
    detail screen, so they keep the text look they already had. */
 a.q, a.t {color:inherit;text-decoration:none}
+
+/* The whole card and each "Recently decided" row open the decision, so
+   the tap target is the full row, not just the title text. */
+[data-open] {cursor:pointer}
