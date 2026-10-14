@@ -7,5 +7,9 @@
   "governance": {
     "preset": "you_or_the_group"
   },
-  "tests": []
+  "tests": [
+    { "name": "Empty list", "path": "/", "expectText": "No open decisions yet" },
+    { "id": "demo-list", "name": "Populated demo", "path": "/?demo=1", "expectText": "Needs your vote", "visual": true, "impact": ["public/**", "server.js", "styles/**"] },
+    { "name": "Demo results", "path": "/?demo=1", "expectText": "Recently decided" }
+  ]
 }

@@ -40,22 +40,25 @@
     --danger: 185 28 28;
     --on-danger: 255 255 255;
     --focus: 13 148 136;      /* the keyboard focus ring */
-    --tally: 31 98 112; /* from the spec's screens */
-    --tally-soft: 219 235 238; /* from the spec's screens */
-    --on-tally: 255 255 255; /* from the spec's screens */
+    --tally: 31 98 112; /* deep teal: everything about votes */
+    --tally-soft: 219 235 238; /* its pale version */
+    --on-tally: 255 255 255; /* text on the tallied fill */
   }
   .dark {
-    --ground: 12 10 9;
-    --surface: 28 25 23;
-    --raised: 41 37 36;
-    --fg: 245 245 244;
-    --muted: 168 162 158;
-    --line: 68 64 60;
-    --accent: 45 212 191;
-    --on-accent: 4 47 46;
+    --ground: 24 21 18;
+    --surface: 34 31 27;
+    --raised: 46 42 37;
+    --fg: 245 241 235;
+    --muted: 176 168 158;
+    --line: 64 58 52;
+    --accent: 232 120 82;
+    --on-accent: 32 12 4;
     --danger: 248 113 113;
     --on-danger: 69 10 10;
-    --focus: 94 234 212;
+    --focus: 110 196 210;
+    --tally: 110 196 210;
+    --tally-soft: 22 52 58;
+    --on-tally: 8 32 38;
   }
   /* el.hidden = true hides an element even when a class gives it a display
      (flex, the components below). */

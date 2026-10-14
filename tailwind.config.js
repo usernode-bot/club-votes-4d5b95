@@ -55,6 +55,9 @@ module.exports = {
         danger: token('danger'),
         'on-danger': token('on-danger'),
         focus: token('focus'), // the keyboard focus ring
+        tally: token('tally'), // deep teal: the tally, the ballot box
+        'tally-soft': token('tally-soft'), // its pale version
+        'on-tally': token('on-tally'),
       },
       // The type scale: four sizes, and nothing in between.
       fontSize: {
@@ -62,6 +65,11 @@ module.exports = {
         body: ['1rem', { lineHeight: '1.5rem' }],
         heading: ['1.25rem', { lineHeight: '1.75rem', fontWeight: '600' }],
         title: ['1.75rem', { lineHeight: '2.25rem', fontWeight: '700' }],
+      },
+      // The spec's screens are drawn in the system rounded face; the
+      // ballot-box tally and the question text all use it.
+      fontFamily: {
+        rounded: ['ui-rounded', 'system-ui', '-apple-system', 'sans-serif'],
       },
     },
   },

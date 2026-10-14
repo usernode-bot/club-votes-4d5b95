@@ -58,22 +58,9 @@ of this applies.
 
 ## Starter template
 
-The screen this app currently ships — the "Starter template" hero with
-the app's thumbnail tile and the plain-English note on how the app gets
-built (by asking Homeroom bot) — is placeholder content from the
-Homeroom starter template, not product intent.
-
-When the user asks for their first real feature, REPLACE the template
-screen rather than building alongside it:
-
-- remove the `usernode-starter-notice@1` block in `public/index.html`
-  (both sentinel comments and everything between them),
-- rewrite `README.md` to describe the actual app.
-
-Keep the `usernode-dev-console@1` forwarder `<script>` when rewriting the
-HTML — that block is platform infrastructure, not template content. So is
-the bridge `<script>`. The design kit is not placeholder either: build the
-real app with it, and fill in "## Design" below.
+(REPLACED by the first version — the template screen is gone; this app's
+own screens render from `public/app.js` in the markup the spec drew, styled
+by `public/screens.css`.)
 
 The screen has a light and a dark look and follows the viewer's Homeroom
 theme, switching live when they change it: the theme `<script>` right after
@@ -95,24 +82,29 @@ tables you've marked private), etc.
 
 ## About Club Votes
 
-A place for your club to decide things together
-
-_(add a sentence or two more of product context here so Claude Code has a
-shared understanding of what this app is for)_
+A place for your club to decide things together. Anyone posts a yes/no
+question with a deadline; every member votes once, can change it until the
+deadline; the club talks it over in the comments under each decision. The
+result is always the honest count: totals only, never who voted which way.
 
 ## Design
 
 This app's look. The first real version fills in the blanks; every later
 change follows it, and updates it when a request changes the look on purpose.
 
-- **Palette:** _(name the accent, any second colour and the neutrals, e.g.
-  "accent: tomato red; second: basil green; neutrals: warm greys")_
-- **Signature element:** _(the one thing on screen drawn from this app's
-  subject, which no other app would have)_
-- **Type scale:** `text-title`, `text-heading`, `text-body`, `text-small`
-  _(change their sizes in `tailwind.config.js` if you must, not their number)_
-- **One fixed look:** _(only for an app drawn as its own scene, such as a
-  game: which look, and why. Otherwise delete this line.)_
+- **Palette:** warm paper neutrals (cream ground, white surface, warm grey
+  text and lines); brick red as the action colour, used ONLY for posting a
+  decision or a comment; deep teal as the tally colour with its pale
+  version behind it, for everything about votes (the ballot box, the
+  "You voted" tick, result pills). Yes and No buttons look identical — the
+  design never tilts toward Yes.
+- **Signature element:** the ballot box — an outlined box with a slot on
+  top; Yes votes fill it from the left in the tally colour, No makes up the
+  rest. It is also the favicon.
+- **Type scale:** `text-title`, `text-heading`, `text-body`, `text-small`,
+  drawn in the system rounded face (`ui-rounded`).
+- The screens follow the viewer's Homeroom theme (light and dark values in
+  the tokens); no fixed look and no theme picker.
 
 The kit is in `styles/tailwind-input.css`: colour tokens with a light and
 a dark value (named in `tailwind.config.js`), and a few components
@@ -142,6 +134,16 @@ Re-theme by changing the token values there, keeping every text pair at
 
 ## App-specific conventions
 
-_(optional — e.g. "all currency values stored as integer cents, not
-floats"; "the `posts` table is append-only"; "avoid adding new
-dependencies"; etc.)_
+- Open/closed for a decision is decided against `req.now` (the platform's
+  request time), never `new Date()` or SQL `NOW()` — a staging preview can
+  be shown as of a chosen moment.
+- The `votes` and `reports` tables are marked `staging:private` (who voted
+  which way, and what was reported, is per-member data). `decisions` and
+  `comments` are public shared tables.
+- Staging demo rows (`?demo=1`) carry `demo_owner` and are excluded from
+  every response that does not ask for the demo; anything a member really
+  posts or writes is never stamped `demo_owner`, so it survives the demo
+  being off.
+- Result strings come from one place, `shapeDecision` in `server.js`:
+  "Yes 13 to 4", "No 9 to 8", "Tied 5 to 5", "No votes".
+- Yes and No vote buttons are always visually identical, on every screen.
